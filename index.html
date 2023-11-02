@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Список справ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    #task-input {
+      width: 60%;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #add-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      font-size: 18px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .completed {
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+  <h1>Список справ</h1>
+  <input type="text" id="task-input" placeholder="Додати справу">
+  <button id="add-button">Додати</button>
+  <ul id="task-list"></ul>
+  <p>Загальна кількість справ: <span id="total-tasks">0</span></p>
+  <p>Незроблених справ: <span id="incomplete-tasks">0</span></p>
+
+  <script>
+    const taskInput = document.getElementById('task-input');
+    const addButton = document.getElementById('add-button');
+    const taskList = document.getElementById('task-list');
+    const totalTasks = document.getElementById('total-tasks');
+    const incompleteTasks = document.getElementById('incomplete-tasks');
+
+    addButton.addEventListener('click', () => {
+      const taskText = taskInput.value.trim();
+      if (taskText) {
+        const taskItem = document.createElement('li');
+        taskItem.textContent = taskText;
+        taskList.appendChild(taskItem);
+        taskInput.value = '';
+        updateTaskCounters();
+        taskItem.addEventListener('click', () => {
+          taskItem.classList.toggle('completed');
+          updateTaskCounters();
+        });
+      }
+    });
+
+    function updateTaskCounters() {
+      totalTasks.textContent = taskList.children.length;
+      const completedTasks = document.querySelectorAll('.completed').length;
+      incompleteTasks.textContent = taskList.children.length - completedTasks;
+    }
+  </script>
+</body>
+</html>
